@@ -1,0 +1,32 @@
+<label> Select Escort:
+    [select escort-title include_blank "Select an Escort" [escort_titles]]
+</label>
+
+<label> Your Name:
+    [text* your-name] 
+</label>
+
+<label> Your Email:
+    [email* your-email] 
+</label>
+
+[submit "Send"]
+function.php
+  // Shortcode to Populate Contact Form 7 Select Field with Escort Post Titles
+function cf7_dynamic_escort_titles() {
+    $posts = get_posts(array(
+        'post_type' => 'escort',
+        'posts_per_page' => -1, // Fetch all posts
+        'post_status' => 'publish',
+    ));
+
+    $options = '';
+    if (!empty($posts)) {
+        foreach ($posts as $post) {
+            $options .= $post->post_title . '|' . $post->post_title . "\n";
+        }
+    }
+
+    return trim($options);
+}
+add_shortcode('escort_titles', 'cf7_dynamic_escort_titles');
