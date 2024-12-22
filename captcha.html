@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>6-Digit CAPTCHA</title>
+    <style>
+        .captcha {
+            font-family: Arial, sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #000;
+            background: #eee;
+            padding: 10px;
+            text-align: center;
+            width: 150px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        .refresh-button {
+            display: inline-block;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>6-Digit CAPTCHA</h1>
+    <div class="captcha" id="captcha"></div>
+    <button type="button" class="refresh-button" onclick="generateCaptcha()">Refresh</button>
+    <form id="captchaForm" action="process_form.php" method="post" onsubmit="return validateCaptcha()">
+        <label for="captcha_input">Enter CAPTCHA:</label><br>
+        <input type="text" id="captcha_input" name="captcha_input" required><br><br>
+        <input type="hidden" id="generated_captcha" name="generated_captcha">
+        <input type="submit" value="Submit">
+    </form>
+    <div class="error" id="error-message"></div>
+
+    <script>
+        function generateCaptcha() {
+            const captcha = Math.floor(100000 + Math.random() * 900000).toString();
+            document.getElementById('captcha').innerText = captcha;
+            document.getElementById('generated_captcha').value = captcha;
+            document.getElementById('error-message').innerText = ''; // Clear error message on refresh
+        }
+
+        function validateCaptcha() {
+            const userCaptcha = document.getElementById('captcha_input').value;
+            const generatedCaptcha = document.getElementById('generated_captcha').value;
+
+            if (userCaptcha !== generatedCaptcha) {
+                document.getElementById('error-message').innerText = 'Incorrect CAPTCHA. Please try again.';
+                return false; // Prevent form submission
+            }
+            return true; // Allow form submission
+        }
+
+        // Generate CAPTCHA when the page loads
+        window.onload = generateCaptcha;
+    </script>
+</body>
+</html>
