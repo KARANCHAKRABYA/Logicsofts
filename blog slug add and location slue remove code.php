@@ -1,4 +1,14 @@
- //post page url add to blog
+//post page url add to blog
+add_filter('post_type_link', 'add_blog_to_post_link', 10, 2);
+add_filter('post_link', 'add_blog_to_post_link', 10, 2);
+
+function add_blog_to_post_link($post_link, $post) {
+    if ($post->post_type === 'post') {
+        return home_url('/blog/' . $post->post_name . '/');
+    }
+    return $post_link;
+}
+
 function custom_post_type_permalink($post_link, $post) {
     if ($post->post_type === 'your_custom_post_type') {
         return home_url('/' . $post->post_type . '/' . $post->post_name . '/');
