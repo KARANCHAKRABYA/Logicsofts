@@ -8,7 +8,7 @@ function custom_post_type_permalink($post_link, $post) {
 
 add_filter('post_type_link', 'custom_post_type_permalink', 10, 2);
 
-
+//Remove a url location taxonomy slue
 function custom_taxonomy_permalink($url, $term, $taxonomy) {
     if ($taxonomy === 'location') {
         $url = home_url('/' . $term->slug . '/');
@@ -17,7 +17,6 @@ function custom_taxonomy_permalink($url, $term, $taxonomy) {
 }
 add_filter('term_link', 'custom_taxonomy_permalink', 10, 3);
 
-//Remove a url location taxonomy slue
 function remove_taxonomy_base_rewrite_rules($rules) {
     $new_rules = array();
     $terms = get_terms(array(
