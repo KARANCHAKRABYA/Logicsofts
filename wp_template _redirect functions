@@ -1,0 +1,15 @@
+
+add_action('template_redirect', function() {
+    if (untrailingslashit($_SERVER['REQUEST_URI']) === '/review') {
+        wp_redirect(home_url(), 301);
+        exit;
+    }
+});
+
+add_action('template_redirect', function() {
+    $request_uri = untrailingslashit($_SERVER['REQUEST_URI']);
+    if ($request_uri === '/escort') {
+        wp_redirect(home_url('/gallery/'), 301);
+        exit;
+    }
+});
