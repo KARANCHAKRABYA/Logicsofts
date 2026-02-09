@@ -1,0 +1,15 @@
+// Safe redirect: only redirect to /404/ code
+add_action( 'template_redirect', 'kk_safe_redirect_missing_to_404page' );
+function kk_safe_redirect_missing_to_404page() {
+    if ( is_admin() || ( defined('DOING_AJAX') && DOING_AJAX ) ) {
+        return;
+    }
+
+    $request_uri = rtrim( parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
+    $target_uri  = rtrim( parse_url( home_url( '/404/' ), PHP_URL_PATH ), '/' ); 
+
+    if ( is_404() && $request_uri !== $target_uri ) {
+        wp_safe_redirect( home_url( '/404/' ), 302 );
+        exit;
+    }
+}
